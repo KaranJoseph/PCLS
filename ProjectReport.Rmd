@@ -1,0 +1,123 @@
+---
+title: "Demand Forecasting and Inventory Optimization for Caterpillar Inc."
+author: "Karan Joseph, Rohit Deshmukh, Syed Ahmed Milad, and Trung Nguyen"
+date: '2022-04-02'
+output: pdf_document
+geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
+toc: true
+theme: united
+fig_caption: yes
+
+header-includes:
+ \usepackage{booktabs}
+ \usepackage{longtable}
+ \usepackage{array}
+ \usepackage{multirow}
+ \usepackage{wrapfig}
+ \usepackage{float}
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.pos = 'H')
+```
+
+# 1. Introduction
+Caterpillar India (CAT) is a 100% subsidiary of an American fortune 100 corporation, Caterpillar Inc. This manufacturing facility founded in 2000 is based in Thiruvallur, Chennai and has around 5000 employees. The company manufactures and sells products ranging from mining, transportation, captive power generation and construction of infrastructure equipment. 
+
+Caterpillar India Private Limited's operating revenues range is over 500M Indian Rupees (INR) for the financial year ending on 31 March 2021. It is a major player in terms of construction equipment in the Asia-Pacific region and ships machinery and equipment across several countries. Sustainability is at the center of business for CAT and is a major focus of the company. Integrity, Excellence, Teamwork, Commitment is some of the values that CAT firmly believes in.
+
+## Problem Statement
+The company has launched new products in the excavator’s product category in the year 2017 for the Indian Market. The production plan of the company is based on the directives of headquarters based in the USA. The higher management also seeks expert opinions to prepare monthly production plans. 
+
+We received the production data from the company’s ERP system for these newly launched excavators. These products have variable demand, and the company is facing the issue of inaccurate forecasting which has eventually led to deteriorating supplier relationships, inefficient cash flow management, and conflicts withing the company’s departments. The inaccurate forecasting has also resulted in an undersupply and oversupply of inventory due to which the company is also incurring high inventory holding costs and shortage costs.
+
+## Mandate
+### a) Objective
+  To formulate an optimal demand forecasting and inventory management plan with a minimal cost based on the 36 months available data.
+
+### b) Scope of the project
+For this paper, we have categorized the products into three main categories based on size of construction vehicles - Heavy-sized, Medium-Sized, and small-sized vehicles. The holding costs of these vehicles vary according to their size and the data was provided at monthly aggregated levels.
+
+This report consists of two Phases: 
+
+  1. **Demand forecasting** 
+  2. **Inventory Management**
+
+Firstly, we noticed that there is a distinct trend in the demand patterns of the vehicles. Therefore we decide to use time-series forecasting methods that would work well in explaining data with seasonality and trend components (Figure 1). Techniques that capture seasonal patterns too, such as Holt-Winter's, Decomposition were not considered for our models because the vehicle sales were not showing any seasonality based on the plots. This was also confirmed by the company as they were not also not expecting any seasonal repetition of sales by categories.
+ - Moving Average 
+ - Simple Exponential
+ - Holt’s 
+ - Croston 
+
+![Demand Patterns of the 3 Excavator Categories](./Images/1.png)
+
+For each model, the results were evaluated by using 4 metrics of error measurements; Mean Squared Error (MSE),  Root Mean Squared Error (RMSE), Mean Absolute Percentage Error (MAPE), and Theil’s U for both in sample and out of sample datasets. The model with the best result’s were then be selected as the utilized tool for our Demand Forecasting part.
+
+The best results from the demand forecasting models were then selected to develop an Inventory Management plan that can minimize the current issues in the client’s system. We developed this inventory plan using Silver Meals Heuristic and then calculated the marginal and total profits the company can yield from each excavator models if they adopted our solution.
+
+# 2. Data Profile
+
+The raw data that we received contains multiple numbers of SKUs. However, most orders received are expressed in terms of vehicle sizes. Because of that, we decided to aggregate the SKUs into three categories of size that is: small, medium and large sized vehicles instead of considering them as individual SKUs . All the currency in this report is in Indian Rupees (INR) as the business is located in India, and that is why we decided not to convert the currency into any other format e.g., Canadian Dollar, USA Dollar. The data is from 2019 to 2021 and is aggregated monthly.
+
+The Selling price of heavy, medium, and small vehicles are 9M, 7.2M and 3.6M INR. The acquisition costs of all the vehicles are assumed to be 50% of the selling price. We learned from the company that the holding costs for heavy vehicles are 13% of the acquisition cost while the annual holding costs of small and medium sized vehicles are 10% of their respective acquisition costs. The company also incurs a penalty of double the holding costs per unit for any shortages. The company has also mentioned that the ordering cost for a batch of heavy vehicles is 1.2M INR while for a batch of small or medium sized vehicles it is 1M INR.
+
+# 3. Demand Forecasting
+## Methodology
+
+Since we have the data in monthly aggregated buckets for 36 months (about 3 years), each month is considered as an individual period of input. Since some of the models that we have used in demand forecasting have parameters that need to be optimized, we decided to split the data into in-sample and out of sample datasets. The dataset was divided using a rough 70-30 split with the first 26 months belonging to the in-sample set and the remaining 10 months in the out of sample set. The model parameters were then trained only on the in-sample data and its performance was tested on the out of sample dataset to determine model predictability for unseen periods. Model performances were then calculated using the following metrics: a) Root Mean Square Error (RMSE) and b) Mean Absolute Percentage Error (MAPE). 
+
+![Sample Evaluation Metric – Holt Model (Heavy Sized Vehicles)](./Images/2.png)
+
+***1.	Naïve Forecasting:*** 
+
+In this forecasting technique, we consider that the previous period’s sales will be the forecast for the next period. The main advantage of the naïve forecast is that it is quite easy to calculate, and it is not dependent on the amount of historical data. This is a good option to be considered when forecasting for non-mature products (products that have just been launched). However, this technique fails to consider any of the causal relationships or time-series effects that can contribute to forecast results.
+
+***2.	Moving Average Forecasting:*** 
+
+In the moving average forecasting method, the average demand from the previous k periods will be used as the next period’s forecast. This method is slightly better than the naïve method as it is not dependent on just a single period of previous demand. Because the future demand is being determined based on the aggregate demands of k previous period’s, the risk or volatility of the data is pooled, which can result in better predictive outcomes. 
+
+For the moving average, we have considered the k=3 for all categories of vehicles.
+
+***3.	Simple Exponential:***
+
+In simple exponential smoothing model, we use a smoothing factor (alpha) to assign exponentially decreasing weights to periods over time. The latest periods will have the strongest weightage in contributing towards predicting the next period, whereas the earlier periods will have exponentially lower weightage. The optimal value of alpha was obtained by using solver to minimize the RMSE values of the in-sample predictions and this was used to forecast for the out of-sample period (27-36th weeks).
+We have observed that the Simple Exponential models were performing better than their naïve forecast counterparts for all vehicular categories based on Theil’U test (values less than 1). The models were also performing better in the out of sample datasets, thus confirming that we were on the right track with developing demand forecast models.
+
+***4.	Holt Model:***
+
+From the time-series plot of the vehicle sales over time, we noticed that there is a distinct trend component in the demand pattern of small and medium vehicles. We aimed to capture this feature using the trend based double exponential smoothing Holt model. In addition to the smoothing parameter (alpha) as in simple exponential model, Holt model also has a trend-based parameter (beta) which should help us get better forecast results where we noticed a distinct trend component in demand. Holt’s models were also performing better than naïve models based on Theil’s U metric, thereby confirming that it also has a significant predictive power. Also, just like the previous models, we have used the in-sample data to optimize the parameters of alpha and beta to forecast for the out of sample periods from 27th – 36th weeks.
+
+***5.	Croston Model:***
+
+The Croston method is an exponential smoothing model which is widely used when you want to forecast periods of intermittent demands. In our case, medium-sized vehicles had a downward trend with intermittent periods of zero demand. Other categories also had some intermittent periods but not to the same extent. However, we decided to do the Croston analysis for all three types of vehicles. 
+
+## Results and Recommendations
+Putting all the results together, the overall summary of the forecasting models for the different vehicle categories is as follows:
+
+```{r echo=FALSE, fig.cap="Summary table for all the vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/ResultsTable.png")
+```
+
+The reason MAPE is giving extremely high values in medium size vehicles despite relatively low RMSE values is because there were a lot of periods of no demand in the out of sample dataset. This makes it difficult to calculate MAPE as percentage calculations would through divide by zero error.
+
+```{r echo=FALSE, fig.cap="Heavy Vehicles – Simple Exponential Smoothing", fig.show="hold", fig.align="center", out.width="60%"}
+knitr::include_graphics("./Images/3.png")
+```
+
+From the summary table, we can conclude that for heavy vehicles, simple exponential smoothing (Figure 4) was the best forecast model. Multiple exponential smoothing, Croston, and Simple Exponential models were all giving the same values (RMSE = 1.21), and this was as expected because from the line plots we had identified that the heavy vehicles were not having any distinguishable trend component and these 3 techniques are just an extension of exponential smoothing under different conditions.  
+
+```{r echo=FALSE, fig.cap="Medium Vehicles – Simple Exponential Smoothing", fig.show="hold", fig.align="center", out.width="60%"}
+knitr::include_graphics("./Images/4.png")
+```
+For medium vehicles as well, Simple Exponential Smoothing gives the best result (RMSE = 0.99) on the out of sample dataset. This was interesting because the medium vehicle category had a lot of intermittent periods which could have justified a better result from Croston model. 
+
+```{r echo=FALSE, fig.cap="Small Vehicles – Holt's Model", fig.show="hold", fig.align="center", out.width="60%"}
+knitr::include_graphics("./Images/5.png")
+```
+Holt’s model of exponential smoothing is the best forecasting model (RMSE = 2.73) for the small vehicle category, and this was also as expected because the line plots showed a noticeably clear upward trend in demand pattern and holt’s model works really well under this condition.
+
+As we all know, there are no silver bullets to predict forecasts with perfect accuracy. But using our analysis, the company can select the model that works best for their use. We would suggest using multiple approaches as proposed above and adopt the best models for implementing this solution. Another improvement on the proposed solution will be to assign weights to the different forecasting techniques for combining the models to give better forecast results by optimizing to minimize the residual error.
+
+
+
+
