@@ -75,7 +75,7 @@ In this forecasting technique, we consider that the previous period’s sales wi
 
 ***2.	Moving Average Forecasting:*** 
 
-In a moving average forecasting method, the average demand from the previous k periods will be used as the next period’s forecast. This method is slightly better than the naïve method as it is not dependent on just a single period of previous demand. Because the future demand is being determined based on the aggregate demands of k previous periods, the risk or volatility of the data is pooled, which can result in better predictive outcomes.   
+In a moving average forecasting model, the average demand from the previous k periods will be used as the next period’s forecast. This method is slightly better than the naïve method as it is not dependent on just a single period of previous demand. Because the future demand is being determined based on the aggregate demands of k previous periods, the risk or volatility of the data is pooled, which can result in better predictive outcomes.   
 
 For the moving average, we have considered the k=3 for all categories of vehicles.
 
@@ -123,66 +123,66 @@ As we all know, there are no silver bullets to predict forecasts with perfect ac
 # 4. Inventory Management
 ## Methodology
 
-The company has some technological constraints that limits them to place an order when the reorder point is reached. Also  given the size and volume of the targeted products, suppliers  impose few restrictions on the time of placing orders. Hence , the company is managing the inventory using the fixed interval variable order quantity (R,S) policy.  
+The company has some technological constraints that limit them to place an order whenever the reorder point is reached. Also, given the size and volume of the targeted products, suppliers impose few restrictions on the time of placing orders. Hence, the company is managing the inventory using a fixed interval variable order quantity (R, S) policy.   
 
-Firstly, we evaluated the company’s current inventory plan in order to understand the benefits and limitations of their methodology.We build the inventory management plan for the complete 36 months with the focus on last 10 months. We then did a comparative analysis of the company’s inventory plan with our recommended solution for this period of 10 months. 
+Firstly, we evaluated the company’s current inventory plan to understand the benefits and limitations of its methodology. Following this, we built an inventory management plan for the complete 36 months, with a focus on the last 10 months. We then did a comparative analysis of the company’s current inventory plan with our recommended solution for this period of 10 months.
 
 ### Scenario – 1 
 
 **Current Inventory Management System** 
 
-For each product category, respective target stock level (S) is calculated with the classic safety stock formula of R,S system. Currently, the company places order every 1 month to raise the inventory level to a maximum position S. The lead time to receive the order is 1 month. 
+For each product category, the respective target stock level (S) is calculated using the classic safety stock formula of an R, S system. Currently, the company places an order every 1 month to raise the inventory level to its maximum position S. Also, the lead time to receive the order is 1 month.  
 
-The inventory management plan was build for the last 10 periods and total costs are calculated for every period. We also considered per unit shortage costs for the periods where the demand was not fully satisfied.  
-
-So, 
+The inventory management plan was built for the entire 36 periods based on the inputs from the company about its current system. Total costs for each period were then calculated after taking into consideration the per unit shortage costs where the demand was not fully satisfied. 
 
 Total Cost= Holding Cost + Shortage Cost + Ordering Cost  
 
 ![Inventory management plan for the periods 27-36 for Heavy vehicles](./Images/6.png)
 
-
-We also estimated the total ordering , holding and Shortage costs of each category of vehicles for the complete period of 10 months. 
-
 ### Scenario-2 
 
 **Proposed Inventory Management System : Silver Meal Heuristics**
 
-We developed an inventory optimization model using the forecasted demands from the predictive models as input. The forecasted demands for each product category is chosen from the best performing demand forecasting model.The inventory optimization model is based on the last 10 periods. In this scenario we are considering that the company is using R,S inventory system until period 26th and then optimizing their inventory using Silver Meal Heuristic for last 10 periods. The starting inventory for silver heuristic model is the ending inventory of 26th period. Safety stock is calculated by maintaining 85% service level. A minimum level of inventory equal to safety stock is maintained for every period.  
-
-A Silver Meal Heuristic algorithm is used for inventory optimization of all three types of vehicles. 
+We developed an inventory optimization model using the forecasted demands from the predictive models as input. The forecasted demands for each product category were chosen from their respective best-performing demand forecasting models. The inventory optimization model is based on the last 10 periods of the historical data, so it matches the out-of-sample dataset from demand forecasting. In this scenario, we are considering that the company is using an R, S inventory system until the 26th period, and then optimizing their inventory using Silver-Meal Heuristic for the last 10 periods. The starting inventory for the SM heuristic model is the ending inventory of the 26th period. Safety stock was then pre-calculated by using the RMSE of the forecast model by maintaining a service level of 85%. A minimum level of inventory equal to safety stock is maintained for the entire period without being used.  
+The Silver Meal Heuristic algorithm is used for inventory optimization of all three types of vehicles. 
 
 ```{r echo=FALSE, fig.cap="Inventory plan for Heavy Vehicles using SM Heuristics", fig.show="hold", fig.align="center", out.width="60%"}
 knitr::include_graphics("./Images/7.png")
 ```
 
-Orders are placed only when the inventory level (apart from safety stock) has reached zero. For heavy vehicles, 4 orders of variable quantities are placed over the period of 10 months.
+Orders are placed only when the inventory level (apart from safety stock) has reached zero. For heavy vehicles, only 4 orders of variable quantities are recommended over the last 10 months.  
 
 ```{r echo=FALSE, fig.cap="Inventory plan for Medium Vehicles using SM Heuristics", fig.show="hold", fig.align="center", out.width="60%"}
 knitr::include_graphics("./Images/8.png")
 ```
 
-From the figure, we can observe that no order is placed for medium vehicles over the 10 periods. This happened essentially because high amount of inventory was accumulated by the end of 26th period and overall demand is very low.  As a result, the demand across this period is satisfied by the initial inventory. 
+From the figure, we can observe that we recommend no orders be placed for medium vehicles over the last 10 periods. This is because a high amount of inventory was accumulated by the end of the 26th period and overall forecasted demand is very low.  As a result, the overall demand during this period will be satisfied by the initial inventory.
 
 ```{r echo=FALSE, fig.cap="Inventory plan for Small Vehicles using SM Heuristics", fig.show="hold", fig.align="center", out.width="60%"}
 knitr::include_graphics("./Images/9.png")
 ```
 
-7 orders were placed to satisfy demand of small vehicles. The order quantity varies over the period of 10 months. 
+7 orders of variable quantities over the last 10 months were recommended to satisfy the demand for small vehicles. 
 
 # 5. Results and Recommendations: 
 
-Putting all the results together, the comparative analysis of the current scenario and our proposal for the different vehicle categories is as follows: 
+Putting all the results together, the comparative analysis of the current scenario and our proposal for the different vehicle categories are as follows: 
 
 ```{r echo=FALSE, fig.cap="Comparartive Analysis of the Inventory Models", fig.show="hold", fig.align="center"}
 knitr::include_graphics("./Images/ProfitsTable.png")
 ```
-It is important to note that the cost savings achieved through our proposed solution is highest for medium-sized vehicles.  In our recommended solution, the ordering costs for the medium-sized vehicles is zero which resulted in substantial savings. The inventory at the end of 26th period is being utilized to satisfy the demand. However, in the current scenario, the company places order 7 times to raise the inventory level to maximum position S which resulted in high ordering costs and overstocking. Our recommendation particularly exposes the limitations of currently practised inventory policy (R,S) system.  
+It is important to note that the cost savings achieved through our proposed solution are highest for medium-sized vehicles.  In our recommended solution, the ordering costs for medium-sized vehicles are zero, which can result in substantial savings for the company. The inventory at the end of the 26th period will be utilized to satisfy the demand over the next 10 periods. However, in the current scenario, the company places 7 different orders to raise the inventory level to the maximum position, S, which has resulted in high ordering and inventory costs (overstocking). Our recommendation is particularly exposing the limitations of the currently practiced inventory policy (R, S) system.   
 
-Silver Meal Heuristic never leads to shortages or lost sales which is evident from the cost savings of small vehicle’s inventory optimization. Overall, our recommended solution lead to cost savings in all three fronts(Holding Cost, Ordering Cost and Shortage cost) for all three types of vehicles resulting in total cost savings of around 15.5M INR.
+Silver Meal Heuristic never leads to shortages or lost sales which is evident from the cost savings of the small vehicle inventory optimization model. Overall, our recommended solution leads to cost savings on all three fronts (Holding Cost, Ordering Cost, and Shortage cost) for all three types of vehicles, resulting in a total cost savings of around 15.5M INR.
 
 # 6. Conclusion
 
-In conclusion, we find that using optimal demand forecasting and inventory management techniques can provide benefits to the company.  From the demand  analysis and forecasting, we found that simple exponential smoothing is the best forecasting model for heavy and medium vehicles. While , for small vehicles who exhibits seasonal demand pattern Holt Winter is the best forecasting model. We then used demands predicted by these best models to optimize the inventory. We did a comparative analysis of company’s currently practiced methods and our recommended solutions. We understood that  our recommended solution resulted in significant cost advantage to the company and can assist in decision making process.  
+In conclusion, we found that using optimal demand forecasting and inventory management techniques can provide huge overall benefits to the company.  From the demand analysis and forecasting, we found that simple exponential smoothing is the best forecasting technique for heavy and medium vehicles. While for small vehicles that exhibit a strong upward trend, Holt's model is the best. We then used the demands predicted by these best models to optimize the inventory for the next periods. Finally, we did a comparative analysis of the company’s current methods against our recommended solutions. We understood that our solution can result in a significant cost advantage for the company, and can greatly assist their decision-making process.   
 
-For our analysis, we assumed the acquisition cost to be 50% of selling price. This acquistion cost was the basis of calculating holding costs which was used  in inventory optimization. Our results can significantly vary, if our assumption is out of place. Moreover, we had no information regarding the capacity of the warehouse, hence we did not consider capacity constraints while optimizing inventory. Results might be significantly affected with these constraints in place. Raw material data was also not available, hence we could not provided the company with more robust analysis in terms of Material planning(MPS), Bill of Material etc. which might have proved beneficial to their business.  
+For our analysis, we assumed that the acquisition cost will be 50% of the selling price. This acquisition cost was the basis of calculating holding costs which was used in inventory optimization. Our results can significantly vary if these assumptions are out of place. Moreover, we had no information regarding the capacity of the warehouse, hence we did not consider capacity constraints while optimizing inventory. Results can be significantly affected if these constraints are put in place. Raw material data was also not available; hence we could not provide the company with a more robust analysis in terms of Material planning (MPS), Bill of materials, etc. which could have provided the company with a greater benefit in terms of finance and efficiency. 
+
+Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient. 
+
+# 7. References
+
+# 8. Appendix
