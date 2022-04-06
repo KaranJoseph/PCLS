@@ -139,7 +139,7 @@ Total Cost= Holding Cost + Shortage Cost + Ordering Cost
 
 ![Inventory management plan for the periods 27-36 for Heavy vehicles](./Images/6.png)
 
-### Scenario-2 
+### Scenario - 2 
 
 **Proposed Inventory Management System : Silver Meal Heuristics**
 
