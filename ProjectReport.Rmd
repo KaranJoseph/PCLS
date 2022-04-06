@@ -36,7 +36,7 @@ We received the production data from the company’s ERP system for these newly 
   To formulate an optimal demand forecasting and inventory management plan with a minimal cost based on the 36 months of available data.
 
 ### b) Scope of the project
-For this paper, we have categorized the products into three main categories based on the size of construction vehicles - Heavy-sized, Medium-Sized, and small-sized vehicles. The holding costs of these vehicles vary according to their size and the data was provided at monthly aggregated levels.
+For this paper, we have categorized the products into three main categories based on the size of construction vehicles - Heavy-sized, Medium-Sized, and Small-Sized vehicles. The holding costs of these vehicles vary according to their size and the data was provided at monthly aggregated levels.
 
 This report consists of two Phases: 
 
@@ -85,7 +85,7 @@ In a simple exponential smoothing model, we use a smoothing factor (alpha) to as
 
 We have observed that the Simple Exponential models were performing better than their naïve forecast counterparts for all vehicular categories based on Theil's U test (values less than 1). The models were also performing better in the out-of-sample datasets, thus confirming that we were on the right track with developing demand forecast models.
 
-***4.	Holt Model:***
+***4.	Holt's Model:***
 
 From the time-series plot of the vehicle sales over time, we noticed that there is a distinct trend component in the demand pattern of small and medium vehicles. We aimed to capture this feature using the trend-based double exponential smoothing Holt model. In addition to the smoothing parameter (alpha) as in the simple exponential model, the Holt model also has a trend-based parameter (beta) which should help us get better forecast results where we noticed a distinct trend component in demand. Holt’s models were also performing better than naïve models based on Theil’s U metric; thereby confirming that it also has significant predictive power. Also, just like the previous models, we have used the in-sample data to optimize the parameters of alpha and beta to forecast for the out-of-sample periods from the 27th – to 36th weeks.
 
@@ -164,7 +164,7 @@ knitr::include_graphics("./Images/9.png")
 
 7 orders of variable quantities over the last 10 months were recommended to satisfy the demand for small vehicles. 
 
-# 5. Results and Recommendations: 
+## Results and Recommendations: 
 
 Putting all the results together, the comparative analysis of the current scenario and our proposal for the different vehicle categories are as follows: 
 
@@ -175,7 +175,7 @@ It is important to note that the cost savings achieved through our proposed solu
 
 Silver Meal Heuristic never leads to shortages or lost sales which is evident from the cost savings of the small vehicle inventory optimization model. Overall, our recommended solution leads to cost savings on all three fronts (Holding Cost, Ordering Cost, and Shortage cost) for all three types of vehicles, resulting in a total cost savings of around 15.5M INR.
 
-# 6. Conclusion
+# 5. Conclusion
 
 In conclusion, we found that using optimal demand forecasting and inventory management techniques can provide huge overall benefits to the company.  From the demand analysis and forecasting, we found that simple exponential smoothing is the best forecasting technique for heavy and medium vehicles. While for small vehicles that exhibit a strong upward trend, Holt's model is the best. We then used the demands predicted by these best models to optimize the inventory for the next periods. Finally, we did a comparative analysis of the company’s current methods against our recommended solutions. We understood that our solution can result in a significant cost advantage for the company, and can greatly assist their decision-making process.   
 
@@ -183,6 +183,6 @@ For our analysis, we assumed that the acquisition cost will be 50% of the sellin
 
 Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient. 
 
-# 7. References
+# 6. References
 
-# 8. Appendix
+# 7. Appendix
