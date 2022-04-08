@@ -21,6 +21,8 @@ header-includes:
 knitr::opts_chunk$set(fig.pos = 'H')
 ```
 
+# Abstract
+
 # 1. Introduction
 Caterpillar India (CAT) is a 100% subsidiary of an American fortune 100 corporations, Caterpillar Inc. This manufacturing facility founded in 2000 is based in Thiruvallur, Chennai, and has around 5000 employees. The company manufactures and sells products ranging from mining, transportation, captive power generation, and construction of infrastructure equipment.   
 
