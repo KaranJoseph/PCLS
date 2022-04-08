@@ -7,12 +7,9 @@ toc: true
 theme: united
 fig_caption: yes
 fontsize: 12pt
-<<<<<<< HEAD
 spacing: single
 font-family: Baskerville
-=======
-#spacing: single
->>>>>>> 9228697d9eb49d8c2a718052fe75fb0cd77e4652
+
 
 header-includes:
  \usepackage{booktabs}
@@ -26,10 +23,7 @@ header-includes:
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(fig.pos = 'H')
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> 9228697d9eb49d8c2a718052fe75fb0cd77e4652
 \newpage
 # Abstract
 In this report, we look to develop optimized models on Demand Forecasting & Inventory Management for Caterpillar India. It is a prominent supplier for construction equipment in the Asia-Pacific region. They offer many different types of excavators, all of which could be divided into three categories based on the size of the vehicle: heavy, medium, and small. 
@@ -37,11 +31,8 @@ Recently, the company has experienced significant loss due to mismatch of invent
 Therefore, we propose using predictive models to give a more accurate forecast of the demands. The forecasting techniques that we will be using are: Moving Average, Simple Exponential, Holt’s and Croston. All these methods will be compared against each other and the Naïve Forecasting, and each vehicle category will be modeled separately, with all the aforementioned methods After developing all the models, we will identify the ones with the best (smallest) error indicators (RMSE & MAPE) and use its forecasted values as a basis to start our next major step: developing an appropriate Inventory Management system. 
 The current Inventory Management system Caterpillar India use is a (R,S) system. They periodically review their inventory every month and then order the respective amount to bring it back to the targeted stock level. In our analysis, we exposed the classic limitation of R,S system that leads to overstocking and redundant ordering costs.In order to combat these problems, we propose using a Silver Meal Heuristics IM system based on the forecasted demand derived from our prior forecasting. In addition, safety stocks are also considered to deal with the forecasting errors. 
 To conclude, we proved the effectiveness of the forecasts and the Silver Meal Heuristics model by showing its significantly lower cost versus the current (R,S) system. Even though assumptions were made in our model to make up for the lack of data, these models were still prove its effectiveness in a model with these fixed parameters vs the old systems. It once again confirm the value of predictive analytics over common wisdom and experts opinion, though both can co-exist and work together to best support a company’s planning. 
-<<<<<<< HEAD
 \newpage
-=======
- 
->>>>>>> 9228697d9eb49d8c2a718052fe75fb0cd77e4652
+
 
 # 1. Introduction
 Caterpillar India (CAT) is a 100% subsidiary of an American fortune 100 corporations, Caterpillar Inc. This manufacturing facility founded in 2000 is based in Thiruvallur, Chennai, and has around 5000 employees. The company manufactures and sells products ranging from mining, transportation, captive power generation, and construction of infrastructure equipment.   
@@ -89,15 +80,10 @@ The Selling price of heavy, medium, and small vehicles are 9M, 7.2M, and 3.6M IN
 
 Since we have the data in monthly aggregated buckets for 36 months (about 3 years), each month is considered an individual period of input. Since some of the models that we have used in demand forecasting have parameters that needed to be optimized, we decided to split the data into in-sample and out-of-sample datasets. The dataset was divided using a rough 70-30 split, with the first 26 months belonging to the in-sample set and the remaining 10 months in the out-of-sample set. The model parameters were then trained only on the in-sample data. Then it was tested on the out-of-sample dataset to determine model predictability for the unseen periods. Model performances were then compared using the following metrics: a) Root Mean Square Error (RMSE) and b) Mean Absolute Percentage Error (MAPE).
 
-<<<<<<< HEAD
 ```{r echo=FALSE, fig.cap="Sample Evaluation Rubric – Holt Model (Heavy Sized Vehicles)", fig.show="hold", fig.align="center"}
 knitr::include_graphics("./Images/2.png")
 ```
 
-=======
-![Sample Evaluation Rubric – Holt Model (Heavy Sized Vehicles)](./Images/2.png)
-\newpage
->>>>>>> 9228697d9eb49d8c2a718052fe75fb0cd77e4652
 ***1.	Naïve Forecasting:*** 
 
 In this forecasting technique, we consider that the previous period’s sales will be used as the forecast for the next period. The main advantage of naïve forecasting is that it is quite easy to calculate, and it is not dependent on the amount of historical data. This is a good option to be considered when forecasting non-mature products (products that have just been launched). However, this technique fails to consider any of the causal relationships or time-series effects that can contribute to forecast results. 
