@@ -86,15 +86,28 @@ For the moving average, we have considered the k=3 for all categories of vehicle
 In a simple exponential smoothing model, we use a smoothing factor (alpha) to assign exponentially decreasing weights to periods over time. The latest periods will have the strongest weightage in contributing toward predicting the next period, whereas the earlier periods will have exponentially lower weightage. The optimal value of alpha was obtained by using the solver to minimize the RMSE values of the in-sample predictions and this was used to forecast for the out-of-sample period (27-36th weeks).  
 
 We have observed that the Simple Exponential models were performing better than their naïve forecast counterparts for all vehicular categories based on Theil's U test (values less than 1). The models were also performing better in the out-of-sample datasets, thus confirming that we were on the right track with developing demand forecast models.
+The parameters for simple exponential smoothing for all three types of vehicles are as follows
 
+```{r echo=FALSE, fig.cap="Simple exponential smoothing parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/SimpleExpo.PNG")
+```
+\newpage
 ***4.	Holt's Model:***
 
 From the time-series plot of the vehicle sales over time, we noticed that there is a distinct trend component in the demand pattern of small and medium vehicles. We aimed to capture this feature using the trend-based double exponential smoothing Holt model. In addition to the smoothing parameter (alpha) as in the simple exponential model, the Holt model also has a trend-based parameter (beta) which should help us get better forecast results where we noticed a distinct trend component in demand. Holt’s models were also performing better than naïve models based on Theil’s U metric; thereby confirming that it also has significant predictive power. Also, just like the previous models, we have used the in-sample data to optimize the parameters of alpha and beta to forecast for the out-of-sample periods from the 27th – to 36th weeks.
+The parameters for Holt for all three types of vehicles are as follows
+```{r echo=FALSE, fig.cap="Holt parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/holt.PNG")
+```
 
 ***5.	Croston Model:***
 
 The Croston method is an exponential smoothing model which is widely used when you want to forecast periods of intermittent demands. In our case, medium-sized vehicles had a downward trend with intermittent periods of zero demand. Other categories also had some intermittent periods but not to the same extent. However, we decided to do the Croston analysis for all three types of vehicles. 
-
+The parameters for croston for all three types of vehicles are as follows
+```{r echo=FALSE, fig.cap="Croston parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/Croston.PNG")
+```
+\newpage
 ## Results and Recommendations
 Putting all the results together, the overall summary of the forecasting models for the different vehicle categories is as follows:
 
