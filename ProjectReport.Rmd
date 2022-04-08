@@ -135,9 +135,10 @@ Firstly, we evaluated the company’s current inventory plan to understand the b
 
 For each product category, the respective target stock level (S) is calculated using the classic safety stock formula of an R, S system. Currently, the company places an order every 1 month to raise the inventory level to its maximum position S. Also, the lead time to receive the order is 1 month.  
 
+$$ S= \mu*L + SS $$
 The inventory management plan was built for the entire 36 periods based on the inputs from the company about its current system. Total costs for each period were then calculated after taking into consideration the per unit shortage costs where the demand was not fully satisfied. 
 
-Total Cost= Holding Cost + Shortage Cost + Ordering Cost  
+$$Total Cost= Holding Cost + Shortage Cost + Ordering Cost$$  
 
 ![Inventory management plan for the periods 27-36 for Heavy vehicles](./Images/6.png)
 
@@ -146,6 +147,8 @@ Total Cost= Holding Cost + Shortage Cost + Ordering Cost
 **Proposed Inventory Management System : Silver Meal Heuristics**
 
 We developed an inventory optimization model using the forecasted demands from the predictive models as input. The forecasted demands for each product category were chosen from their respective best-performing demand forecasting models. The inventory optimization model is based on the last 10 periods of the historical data, so it matches the out-of-sample dataset from demand forecasting. In this scenario, we are considering that the company is using an R, S inventory system until the 26th period, and then optimizing their inventory using Silver-Meal Heuristic for the last 10 periods. The starting inventory for the SM heuristic model is the ending inventory of the 26th period. Safety stock was then pre-calculated by using the RMSE of the forecast model by maintaining a service level of 85%. A minimum level of inventory equal to safety stock is maintained for the entire period without being used.  
+$$SS= z*(rmse)*\sqrt(R+L)$$
+
 The Silver Meal Heuristic algorithm is used for inventory optimization of all three types of vehicles. 
 
 ```{r echo=FALSE, fig.cap="Inventory plan for Heavy Vehicles using SM Heuristics", fig.show="hold", fig.align="center", out.width="60%"}
