@@ -1,12 +1,14 @@
 ---
 title: "Demand Forecasting and Inventory Optimization for Caterpillar Inc."
 author: "Karan Joseph, Rohit Deshmukh, Syed Ahmed Milad, and Trung Nguyen"
-date: '2022-04-02'
 output: pdf_document
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 toc: true
 theme: united
 fig_caption: yes
+fontsize: 12pt
+spacing: single
+font-family: Baskerville
 
 header-includes:
  \usepackage{booktabs}
@@ -21,7 +23,14 @@ header-includes:
 knitr::opts_chunk$set(fig.pos = 'H')
 ```
 
+\newpage
 # Abstract
+In this report, we look to develop optimized models on Demand Forecasting & Inventory Management for Caterpillar India. It is a prominent supplier for construction equipment in the Asia-Pacific region. They offer many different types of excavators, all of which could be divided into three categories based on the size of the vehicle: heavy, medium, and small. 
+Recently, the company has experienced significant loss due to mismatch of inventory and demand. As it may be common in these conventional industries, they do not leverage predictive analytics to base their forecast upon but rather rely on experts’ opinions to place their order. 
+Therefore, we propose using predictive models to give a more accurate forecast of the demands. The forecasting techniques that we will be using are: Moving Average, Simple Exponential, Holt’s and Croston. All these methods will be compared against each other and the Naïve Forecasting, and each vehicle category will be modeled separately, with all the aforementioned methods After developing all the models, we will identify the ones with the best (smallest) error indicators (RMSE & MAPE) and use its forecasted values as a basis to start our next major step: developing an appropriate Inventory Management system. 
+The current Inventory Management system Caterpillar India use is a (R,S) system. They periodically review their inventory every month and then order the respective amount to bring it back to the targeted stock level. In our analysis, we exposed the classic limitation of R,S system that leads to overstocking and redundant ordering costs.In order to combat these problems, we propose using a Silver Meal Heuristics IM system based on the forecasted demand derived from our prior forecasting. In addition, safety stocks are also considered to deal with the forecasting errors. 
+To conclude, we proved the effectiveness of the forecasts and the Silver Meal Heuristics model by showing its significantly lower cost versus the current (R,S) system. Even though assumptions were made in our model to make up for the lack of data, these models were still prove its effectiveness in a model with these fixed parameters vs the old systems. It once again confirm the value of predictive analytics over common wisdom and experts opinion, though both can co-exist and work together to best support a company’s planning. 
+\newpage
 
 # 1. Introduction
 Caterpillar India (CAT) is a 100% subsidiary of an American fortune 100 corporations, Caterpillar Inc. This manufacturing facility founded in 2000 is based in Thiruvallur, Chennai, and has around 5000 employees. The company manufactures and sells products ranging from mining, transportation, captive power generation, and construction of infrastructure equipment.   
@@ -69,7 +78,9 @@ The Selling price of heavy, medium, and small vehicles are 9M, 7.2M, and 3.6M IN
 
 Since we have the data in monthly aggregated buckets for 36 months (about 3 years), each month is considered an individual period of input. Since some of the models that we have used in demand forecasting have parameters that needed to be optimized, we decided to split the data into in-sample and out-of-sample datasets. The dataset was divided using a rough 70-30 split, with the first 26 months belonging to the in-sample set and the remaining 10 months in the out-of-sample set. The model parameters were then trained only on the in-sample data. Then it was tested on the out-of-sample dataset to determine model predictability for the unseen periods. Model performances were then compared using the following metrics: a) Root Mean Square Error (RMSE) and b) Mean Absolute Percentage Error (MAPE).
 
-![Sample Evaluation Rubric – Holt Model (Heavy Sized Vehicles)](./Images/2.png)
+```{r echo=FALSE, fig.cap="Sample Evaluation Rubric – Holt Model (Heavy Sized Vehicles)", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/2.png")
+```
 
 ***1.	Naïve Forecasting:*** 
 
@@ -86,14 +97,27 @@ For the moving average, we have considered the k=3 for all categories of vehicle
 In a simple exponential smoothing model, we use a smoothing factor (alpha) to assign exponentially decreasing weights to periods over time. The latest periods will have the strongest weightage in contributing toward predicting the next period, whereas the earlier periods will have exponentially lower weightage. The optimal value of alpha was obtained by using the solver to minimize the RMSE values of the in-sample predictions and this was used to forecast for the out-of-sample period (27-36th weeks).  
 
 We have observed that the Simple Exponential models were performing better than their naïve forecast counterparts for all vehicular categories based on Theil's U test (values less than 1). The models were also performing better in the out-of-sample datasets, thus confirming that we were on the right track with developing demand forecast models.
+The parameters for simple exponential smoothing for all three types of vehicles are as follows
+
+```{r echo=FALSE, fig.cap="Simple exponential smoothing parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/SimpleExpo.PNG")
+```
 
 ***4.	Holt's Model:***
 
 From the time-series plot of the vehicle sales over time, we noticed that there is a distinct trend component in the demand pattern of small and medium vehicles. We aimed to capture this feature using the trend-based double exponential smoothing Holt model. In addition to the smoothing parameter (alpha) as in the simple exponential model, the Holt model also has a trend-based parameter (beta) which should help us get better forecast results where we noticed a distinct trend component in demand. Holt’s models were also performing better than naïve models based on Theil’s U metric; thereby confirming that it also has significant predictive power. Also, just like the previous models, we have used the in-sample data to optimize the parameters of alpha and beta to forecast for the out-of-sample periods from the 27th – to 36th weeks.
+The parameters for Holt for all three types of vehicles are as follows
+```{r echo=FALSE, fig.cap="Holt parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/holt.PNG")
+```
 
 ***5.	Croston Model:***
 
 The Croston method is an exponential smoothing model which is widely used when you want to forecast periods of intermittent demands. In our case, medium-sized vehicles had a downward trend with intermittent periods of zero demand. Other categories also had some intermittent periods but not to the same extent. However, we decided to do the Croston analysis for all three types of vehicles. 
+The parameters for croston for all three types of vehicles are as follows
+```{r echo=FALSE, fig.cap="Croston parameters for all types of vehicles", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/Croston.PNG")
+```
 
 ## Results and Recommendations
 Putting all the results together, the overall summary of the forecasting models for the different vehicle categories is as follows:
@@ -108,7 +132,7 @@ The reason why MAPE is giving extremely high values in medium-sized vehicles, de
 knitr::include_graphics("./Images/3.png")
 ```
 
-From the summary table, we can conclude that for heavy vehicles, simple exponential smoothing (Figure 4) was the best forecast model. Multiple exponential smoothing, Croston, and Simple Exponential models were all giving the same values (RMSE = 1.21), and this was as expected because from the line plots we had identified that the heavy vehicles were not having any distinguishable trend component and these 3 techniques are just an extension of exponential smoothing under different conditions. 
+From the summary table, we can conclude that for heavy vehicles, simple exponential smoothing (Figure 7) was the best forecast model. Multiple exponential smoothing, Croston, and Simple Exponential models were all giving the same values (RMSE = 1.21), and this was as expected because from the line plots we had identified that the heavy vehicles were not having any distinguishable trend component and these 3 techniques are just an extension of exponential smoothing under different conditions. 
 
 ```{r echo=FALSE, fig.cap="Medium Vehicles – Simple Exponential Smoothing", fig.show="hold", fig.align="center", out.width="60%"}
 knitr::include_graphics("./Images/4.png")
@@ -135,9 +159,10 @@ Firstly, we evaluated the company’s current inventory plan to understand the b
 
 For each product category, the respective target stock level (S) is calculated using the classic safety stock formula of an R, S system. Currently, the company places an order every 1 month to raise the inventory level to its maximum position S. Also, the lead time to receive the order is 1 month.  
 
+$$ S= \mu*L + SS $$
 The inventory management plan was built for the entire 36 periods based on the inputs from the company about its current system. Total costs for each period were then calculated after taking into consideration the per unit shortage costs where the demand was not fully satisfied. 
 
-Total Cost= Holding Cost + Shortage Cost + Ordering Cost  
+$$Total Cost= Holding Cost + Shortage Cost + Ordering Cost$$  
 
 ![Inventory management plan for the periods 27-36 for Heavy vehicles](./Images/6.png)
 
@@ -146,6 +171,8 @@ Total Cost= Holding Cost + Shortage Cost + Ordering Cost
 **Proposed Inventory Management System : Silver Meal Heuristics**
 
 We developed an inventory optimization model using the forecasted demands from the predictive models as input. The forecasted demands for each product category were chosen from their respective best-performing demand forecasting models. The inventory optimization model is based on the last 10 periods of the historical data, so it matches the out-of-sample dataset from demand forecasting. In this scenario, we are considering that the company is using an R, S inventory system until the 26th period, and then optimizing their inventory using Silver-Meal Heuristic for the last 10 periods. The starting inventory for the SM heuristic model is the ending inventory of the 26th period. Safety stock was then pre-calculated by using the RMSE of the forecast model by maintaining a service level of 85%. A minimum level of inventory equal to safety stock is maintained for the entire period without being used.  
+$$SS= z*(rmse)*\sqrt(R+L)$$
+
 The Silver Meal Heuristic algorithm is used for inventory optimization of all three types of vehicles. 
 
 ```{r echo=FALSE, fig.cap="Inventory plan for Heavy Vehicles using SM Heuristics", fig.show="hold", fig.align="center", out.width="60%"}
@@ -185,6 +212,4 @@ For our analysis, we assumed that the acquisition cost will be 50% of the sellin
 
 Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient. 
 
-# 6. References
-
-# 7. Appendix
+# 6. Appendix
