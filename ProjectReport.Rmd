@@ -212,10 +212,9 @@ In conclusion, we found that using optimal demand forecasting and inventory mana
 
 For our analysis, we assumed that the acquisition cost will be 50% of the selling price. This acquisition cost was the basis of calculating holding costs which was used in inventory optimization. Our results can significantly vary if these assumptions are out of place. Moreover, we had no information regarding the capacity of the warehouse, hence we did not consider capacity constraints while optimizing inventory. Results can be significantly affected if these constraints are put in place. Raw material data was also not available; hence we could not provide the company with a more robust analysis in terms of Material planning (MPS), Bill of materials, etc. which could have provided the company with a greater benefit in terms of finance and efficiency. 
 
-Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient. 
+Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient.
+
 \newpage
-
-
 # 6. Appendix
 
 ## Demand Forecasting
@@ -224,11 +223,12 @@ Despite these limitations, our study is a great reference for the company, if th
 ```{r echo=FALSE,fig.show="hold", fig.align="center"}
 knitr::include_graphics("./Images/a.PNG")
 ```
-
+\newpage
 **Appendix B: Medium Vehicles-Best Forecasting Model**
 ```{r echo=FALSE, fig.show="hold", fig.align="center"}
 knitr::include_graphics("./Images/b.PNG")
 ```
+\newpage
 **Appendix C: Small Vehicles-Best Forecasting Model**
 
 ```{r echo=FALSE,fig.show="hold", fig.align="center"}
