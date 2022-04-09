@@ -215,3 +215,35 @@ For our analysis, we assumed that the acquisition cost will be 50% of the sellin
 Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient. 
 
 # 6. Appendix
+
+## Demand Forecasting
+
+
+```{r echo=FALSE, fig.cap="Heavy Vehicles-Best Forecasting Model", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/a.PNG")
+```
+
+```{r echo=FALSE, fig.cap="Medium Vehicles-Best Forecasting Model", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/b.PNG")
+```
+
+```{r echo=FALSE, fig.cap="Small Vehicles-Best Forecasting Model", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/c.PNG")
+```
+
+```{r echo=FALSE, fig.cap="Forecast Comaprison", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/d.PNG")
+```
+
+## Inventory Management 
+```{r echo=FALSE, fig.cap="Heavy Vehicles-RS Inventory Policy", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/e.PNG")
+```
+
+```{r echo=FALSE, fig.cap="Heavy Vehicles-Silver Meals Heuristics", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/f.PNG")
+```
+
+```{r echo=FALSE, fig.cap="Comparative Analysis-Inventory Policy", fig.show="hold", fig.align="center"}
+knitr::include_graphics("./Images/g.PNG")
+```
