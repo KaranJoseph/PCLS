@@ -26,11 +26,11 @@ knitr::opts_chunk$set(fig.pos = 'H')
 
 \newpage
 # Abstract
-In this report, we look to develop optimized models on Demand Forecasting & Inventory Management for Caterpillar India. It is a prominent supplier for construction equipment in the Asia-Pacific region. They offer many different types of excavators, all of which could be divided into three categories based on the size of the vehicle: heavy, medium, and small. 
-Recently, the company has experienced significant loss due to mismatch of inventory and demand. As it may be common in these conventional industries, they do not leverage predictive analytics to base their forecast upon but rather rely on experts’ opinions to place their order. 
-Therefore, we propose using predictive models to give a more accurate forecast of the demands. The forecasting techniques that we will be using are: Moving Average, Simple Exponential, Holt’s and Croston. All these methods will be compared against each other and the Naïve Forecasting, and each vehicle category will be modeled separately, with all the aforementioned methods After developing all the models, we will identify the ones with the best (smallest) error indicators (RMSE & MAPE) and use its forecasted values as a basis to start our next major step: developing an appropriate Inventory Management system. 
-The current Inventory Management system Caterpillar India use is a (R,S) system. They periodically review their inventory every month and then order the respective amount to bring it back to the targeted stock level. In our analysis, we exposed the classic limitation of R,S system that leads to overstocking and redundant ordering costs.In order to combat these problems, we propose using a Silver Meal Heuristics IM system based on the forecasted demand derived from our prior forecasting. In addition, safety stocks are also considered to deal with the forecasting errors. 
-To conclude, we proved the effectiveness of the forecasts and the Silver Meal Heuristics model by showing its significantly lower cost versus the current (R,S) system. Even though assumptions were made in our model to make up for the lack of data, these models were still prove its effectiveness in a model with these fixed parameters vs the old systems. It once again confirm the value of predictive analytics over common wisdom and experts opinion, though both can co-exist and work together to best support a company’s planning. 
+In this report, we are looking to develop optimized Demand Forecasting & Inventory Management solutions for Caterpillar India. They are a leading supplier of construction equipment in the Asia-Pacific region. They offer many different types of excavators, all of which could be divided into three categories based on the size of the vehicle: heavy, medium, and small. 
+Recently, the company has experienced significant losses due to a mismatch between inventory and demand. As it may be common in these conventional industries, they do not leverage predictive analytics to base their forecasts, but rather rely on experts’ opinions to place their orders. 
+Therefore, we are proposing the use of predictive models to give more accurate forecasts of the demands. The forecasting techniques that we will be using are Moving Average, Simple Exponential, Holt’s, and Croston. All these methods will be compared against each other and the Naïve Forecasting technique and each vehicle category will be modeled separately, with all the aforementioned methods. After developing all the models, we will identify the ones with the best (smallest) error indicators (RMSE & MAPE), and use their forecasted values as a basis to start our next major step: developing an appropriate Inventory Management system. 
+The current Inventory Management system Caterpillar India use is an (R, S) system. They periodically review their inventory every month and then order the respective amount to bring it back to the targeted stock level. Through our analysis, we have exposed the classic limitation of the (R, S) system, which leads to overstocking and redundant ordering costs. To combat these problems, we propose using a Silver Meal Heuristics IM system based on the forecasted demand derived from our prior predictive models. In addition, safety stocks are also considered to deal with forecasting errors. 
+To conclude, we proved the effectiveness of the forecasts and the Silver Meal Heuristics models by showing their significantly higher cost savings versus the current (R, S) system. Even though several assumptions were made in our models to make up for the lack of information, these models have still proven their effectiveness versus the current systems. This once again confirms the value of predictive analytics over common wisdom and experts' opinions, though both can co-exist and should work together to best support a company’s planning. 
 \newpage
 
 
@@ -40,7 +40,7 @@ Caterpillar India (CAT) is a 100% subsidiary of an American fortune 100 corporat
 Caterpillar India Private Limited's operating revenues range is over 500M Indian Rupees (INR) for the financial year ending on 31 March 2021. It is a major player in terms of construction equipment in the Asia-Pacific region and ships machinery and equipment across several countries. Sustainability is at the center of business for CAT and is a major focus of the company. Integrity, Excellence, Teamwork, and Commitment are some of the values that CAT firmly believes in.
 
 ## Problem Statement
-The company has launched new products in the excavator product category in the year 2017 for the Indian Market. The production plan for the company is based on the directives from their headquarters in the USA. The higher management also seeks expert opinions to prepare monthly production plans.   
+The company launched new products in the excavator product category in the year 2017 for the Indian Market. The production plan for the company is based on the directives from their headquarters in the USA. The higher management also seeks expert opinions to prepare monthly production plans.   
 
 We received the production data from the company’s ERP system for these newly launched excavators. These products have variable demand, and the company is facing the issue of inaccurate forecasting which has eventually led to deteriorating supplier relationships, inefficient cash flow management, and conflicts within the company’s departments. The inaccurate forecasting has also resulted in an undersupply and oversupply of inventory due to which the company is also incurring high inventory holding costs and shortage costs. 
 
@@ -65,15 +65,15 @@ Firstly, we noticed that there is a distinct trend in the demand patterns of the
 
 ![Demand Patterns of the 3 Excavator Categories](./Images/1.png)
 
-For each model, the results were evaluated by using 4 metrics of error measurements; Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Percentage Error (MAPE), and Theil’s U for both in-sample and out of sample datasets. The model with the best results was then be selected as the utilized tool for our Demand Forecasting part.  
+For each model, the results were evaluated by using 4 metrics of error measurements; Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Percentage Error (MAPE), and Theil’s U for both in-sample and out of sample datasets. The model with the best results was then selected as the utilized tool for our Demand Forecasting part.  
 
-The best results from the demand forecasting models were then selected to develop an Inventory Management plan that can minimize the current issues in the client’s system. We developed this inventory plan using Silver Meals Heuristic and then calculated the marginal and total profits the company can yield from each excavator model if they adopted our solution. 
+The output from the best models was then used to develop an Inventory Management plan that can minimize the current issues in the client’s system. We developed this inventory plan using Silver Meals Heuristic and then calculated the marginal and total profits the company can yield from each excavator model if they adopted our solution.
 
 # 2. Data Profile
 
-The raw data that we received contains multiple numbers of SKUs (stock keeping units). However, most orders received are expressed in terms of vehicle sizes. Because of this, we decided to aggregate the SKUs into three categories based on size, i.e.: small, medium, and large-sized vehicles instead of considering them as individual SKUs. All the currency in this report is in Indian Rupees (INR) as the business is located in India. And we decided not to convert the currency into any other format to represent it in the original format. The data is from 2019 to 2021 and is aggregated at the monthly level.  
+The raw data we received contained multiple SKUs (stock-keeping units). However, most orders were expressed in terms of vehicle sizes. Because of this, we decided to aggregate the SKUs into three categories based on size, i.e, small, medium, and large-sized vehicles, instead of considering them as individual SKUs. All the currency in this report is in Indian Rupees (INR) as the business is located in India. We decided not to convert the currency into any other format to represent it in the original format. The data is from the years 2019 to 2021 and is aggregated at the monthly level.  
 
-The Selling price of heavy, medium, and small vehicles are 9M, 7.2M, and 3.6M INR respectively. The acquisition costs of all the vehicles are assumed to be 50% of the selling price. We learned from the company that the holding costs for heavy vehicles are 13% of the acquisition cost while the annual holding costs of small and medium-sized vehicles are 10% of their respective acquisition costs. The company also incurs a penalty of double the holding costs per unit for any shortages. The company has also mentioned that the ordering cost for a batch of heavy vehicles is 1.2M INR. And those for small or medium-sized vehicles are 1M INR. 
+The Selling price of heavy, medium and small vehicles are 9M, 7.2M, and 3.6M INR respectively. The acquisition costs of all the vehicles are assumed to be 50% of the selling price. We learned from the company that the holding costs for heavy vehicles are 13% of the acquisition cost while the annual holding costs of small and medium-sized vehicles are 10% of their respective acquisition costs. The company also incurs a penalty of two times the holding costs per unit for any shortages. The company has also mentioned that the ordering cost for a batch of heavy vehicles is 1.2M INR. And those for small or medium-sized vehicles are 1M INR.  
 
 # 3. Demand Forecasting
 ## Methodology
@@ -146,7 +146,7 @@ knitr::include_graphics("./Images/5.png")
 ```
 Holt’s model of exponential smoothing is the best forecasting model (RMSE = 2.73) for the small vehicle category, and this was also as expected because the line plots showed a noticeably clear upward trend in the demand pattern and the Holt’s model works well under this condition.  
 
-As we all know, there are no silver bullets to predict forecasts with perfect accuracy. But using our analysis, the company can select the model that works best for their use. We would suggest using multiple approaches as proposed above and adopting the best models for implementing this project. Another improvement over the proposed solution will be to assign weights to the different forecasting techniques for combining the models to give better forecast results by optimizing to minimize the residual error.
+As we all know, there are no silver bullets to predict forecasts with perfect accuracy. But using our analysis, the company can select the model that works best for their use. We would suggest using multiple approaches as proposed above and adopting the best models for implementing this project. Another improvement over the proposed solution will be to assign weights to the different forecasting techniques, for combining the models to give better forecast results by optimizing to minimize the residual error.
 
 # 4. Inventory Management
 ## Methodology
@@ -208,9 +208,9 @@ Silver Meal Heuristic never leads to shortages or lost sales which is evident fr
 
 # 5. Conclusion
 
-In conclusion, we found that using optimal demand forecasting and inventory management techniques can provide huge overall benefits to the company.  From the demand analysis and forecasting, we found that simple exponential smoothing is the best forecasting technique for heavy and medium vehicles. While for small vehicles that exhibit a strong upward trend, Holt's model is the best. We then used the demands predicted by these best models to optimize the inventory for the next periods. Finally, we did a comparative analysis of the company’s current methods against our recommended solutions. We understood that our solution can result in a significant cost advantage for the company, and can greatly assist their decision-making process.   
+In conclusion, we found that using optimal demand forecasting and inventory management techniques can provide huge overall benefits to the company. From the demand forecasting models, we found that simple exponential smoothing is the best for heavy and medium vehicles. While for small vehicles which exhibit a strong upward trend, Holt's model is the natural best. We then used the demands predicted by these best models to optimize the inventory for the next periods. Finally, we did a comparative analysis of the company’s current methods against our recommended solutions. We understood that our solution can result in a significant cost advantage for the company, and can greatly assist their decision-making process.   
 
-For our analysis, we assumed that the acquisition cost will be 50% of the selling price. This acquisition cost was the basis of calculating holding costs which was used in inventory optimization. Our results can significantly vary if these assumptions are out of place. Moreover, we had no information regarding the capacity of the warehouse, hence we did not consider capacity constraints while optimizing inventory. Results can be significantly affected if these constraints are put in place. Raw material data was also not available; hence we could not provide the company with a more robust analysis in terms of Material planning (MPS), Bill of materials, etc. which could have provided the company with a greater benefit in terms of finance and efficiency. 
+For our analysis, we have assumed that the acquisition cost will be 50% of the selling price. This acquisition cost was the basis of calculating the holding costs which are used in inventory optimization. Our results can significantly vary if these assumptions are out of place. Moreover, we had no information regarding the capacity of the warehouse, hence we did not consider capacity constraints while optimizing inventory. Results can be significantly affected if these constraints are put in place. Raw material data was also not available; hence we could not provide the company with a more robust analysis in terms of Production Schedules (MPS), Bill of materials, etc. which could have provided the company with a greater benefit in terms of profit and efficiency. 
 
 Despite these limitations, our study is a great reference for the company, if they wish to implement these techniques in the future to make their supply chain more resilient.
 
@@ -220,24 +220,24 @@ Despite these limitations, our study is a great reference for the company, if th
 ## Demand Forecasting
 
 **Appendix A: Heavy Vehicles-Best Forecasting Model**
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/a.PNG")
 ```
 \newpage
 **Appendix B: Medium Vehicles-Best Forecasting Model**
-```{r echo=FALSE, fig.show="hold", fig.align="center"}
+```{r echo=FALSE, fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/b.PNG")
 ```
 \newpage
 **Appendix C: Small Vehicles-Best Forecasting Model**
 
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/c.PNG")
 ```
 
 **Appendix D: Forecast Comparison**
 
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/d.PNG")
 ```
 \newpage
@@ -245,17 +245,17 @@ knitr::include_graphics("./Images/d.PNG")
 
 **Appendix E: Heavy Vehicles-RS Inventory Policy**
 
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/e.PNG")
 ```
 
 **Appendix F: Heavy Vehicles-Silver Meals Heuristics**
 
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/f.PNG")
 ```
 \newpage
 **Appendix G: Comparative Analysis-Inventory Policy**
-```{r echo=FALSE,fig.show="hold", fig.align="center"}
+```{r echo=FALSE,fig.show="hold", fig.align="center", out.width= "100%"}
 knitr::include_graphics("./Images/g.PNG")
 ```
